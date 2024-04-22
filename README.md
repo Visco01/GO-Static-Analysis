@@ -36,9 +36,9 @@ elements in an array.
    each character of the string into an uppercase letter. Write a main in which
    you create a string that contains the word “ciao“ and transforms it into
    “CIAO“
-2. Write a function that takes a string as input and returns the number of
-   unique characters in the string. For example, if the input string is "hello
-   world", the output should be 6 (h, e, l, o, w, r).
+2. Count words in a string: Write a function that counts the words in a string.
+   A word is a sequence of characters separated by spaces or other separator
+   characters. For example, the string "the house is white" contains 3 words.
 3. Write a function that takes a string as input and returns the number of times
    a specific character appears in the string. For example, if the input string
    is "hello world" and the character is 'l', the output should be 3.
