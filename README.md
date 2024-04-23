@@ -22,10 +22,10 @@ elements in an array.
    each element of the array with the previous elements. If the item is smaller
    than a previous item, it is swapped with that item. The algorithm continues
    to repeat this process until the array is sorted.
-49. Swap Sort: Write a function that sorts an array of integers using the swap
-    sort algorithm. The swap sort algorithm works by comparing two adjacent
-    array elements and swapping them if they are in the wrong order. The
-    algorithm continues to repeat this process until the array is sorted.
+49. Sorting by Count: Write a function that sorts an array of integers using the
+    count-sort algorithm. Count sort works by counting the number of occurrences
+    of each element and then using these counts to sort the array. This
+    algorithm works only with non-negative integers.
 47. Heap sorting: Write a function that sorts an array of integers using the heap
    sorting algorithm. Heap sort works by transforming the array into a heap,
    then repeatedly removing the maximum element from the heap and inserting it
