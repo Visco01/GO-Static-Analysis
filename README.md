@@ -45,7 +45,3 @@ elements in an array.
    
 ## Custom algorithms
 TODO
-
-## TODO
-1. change first model count sort to SWAP SORT
-2. Continue the second model from HEAP SORT
