@@ -44,4 +44,13 @@ elements in an array.
    is "hello world" and the character is 'l', the output should be 3.
    
 ## Custom algorithms
-TODO
+1. Write a function that checks if all elements in an array are distinct (no
+   duplicates).
+2. Merge Sort: Write a function that sorts an array of integers using the merge
+   sort algorithm. Merge sort works by dividing the array into two halves,
+   sorting each half separately, and then merging the sorted halves into a
+   single sorted array.
+3. Write a function that takes a string as input and checks if it contains only
+   alphabetic characters (letters). For example, if the input string is "hello123",
+   the output should be False, whereas if the input string is "helloworld", the
+   output should be True.
