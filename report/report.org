@@ -1,4 +1,70 @@
 #+title: SCRS 2024 final task
 #+SETUPFILE: /Users/visco/.config/doom/latex-standard-setup.org
 
-lol
+* Introduction
+This project involves the generation and analysis of algorithm implementations
+in the GO programming language, leveraging state-of-the-art generative AI
+models. The primary objective is to evaluate the quality and correctness of the
+generated GO code through static analysis using the LiSA (Library for Static
+Analysis) tool. The focus is on understanding the behavior of the code with
+respect to two specific analysis domains chosen from a set of available domains.
+
+** Objectives
+*** Algorithm Specification and Generation
+1. A given amount of algorithm specifications will be assigned across various
+   categories such as array manipulation, sorting, and string manipulation.
+2. For each specification, a generative AI language model will be used to
+   produce the corresponding GO code.
+*** Generative AI Models
+1. The models selected for this task are:
+   - CohereForAI/c4ai-command-r-plus
+   - HuggingFaceH4/zephyr-orpo-141b-A35b-v0.1
+2. These models will generate the GO code based on provided specifications. The
+   code must be correctly implemented and capable of compilation without
+   additional modification.
+*** Static Analysis with LiSA
+1. Each generated GO code will be analyzed using LiSA to evaluate its behavior
+   in two chosen domains. The available domains include sign, parity, intervals,
+   pentagons, prefix, suffix, tarsis, and taint.
+2. The selected domains for this analysis will focus on understanding how the
+   algorithms handle numerical properties (such as sign) and range checks (such
+   as intervals).
+*** Result Investigation
+1. The results from LiSA will be thoroughly investigated to identify potential
+   issues such as logical errors, out-of-bound accesses, incorrect handling of
+   numerical properties, and other relevant concerns.
+2. If the analysis is not meaningful due to missing main functions or other
+   context-specific code, the models will be prompted to generate complete
+   examples including main functions to ensure comprehensive analysis.
+
+** Detailed steps of execution
+*** Generative AI Process
+1. Access the chosen models via the HuggingFace platform.
+2. Input the system prompt designed for generating GO code.
+3. Provide each model with the task specifications and collect the generated
+   code.
+4. Ensure the code is clean from any extraneous textual comments provided by the
+   models.
+*** Running LiSA Analysis
+1. Use LiSA to perform static analysis on each generated GO script.
+2. Select two domains suitable for each algorithm to provide a comprehensive
+   understanding of the code’s behavior.
+3. Document the analysis process and results for each script.
+*** Investigation and Report Writing
+1. Carefully investigate the results from LiSA.
+2. Compile the findings into a coherent and detailed report, highlighting key insights and any issues detected during the analysis.
+
+By following this structured approach, the project aims to leverage AI-generated
+code and advanced static analysis tools to provide valuable insights into the
+behavior and correctness of algorithm implementations in GO. This will not only
+validate the effectiveness of generative AI models in producing functional code
+but also highlight the importance of thorough static analysis in ensuring code
+quality and reliability.
+
+
+
+* Domains involved
+* First model: c4ai-command-r-plus
+* Second model: zephyr-orpo-141b-A35b-v0.1
+* Models comparison
+* Final considerations
