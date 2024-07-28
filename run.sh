@@ -25,6 +25,9 @@ current_directory=$(pwd)
 file_count=0
 
 
+rm -rf "$C4AI_COMMAND_R_PLUS/../output"
+rm -rf "$ZEPHYR_ORPO_141B_A35B_V01/../output"
+
 echo "Analyzing with $analysis"
 for model in "${models[@]}"; do
     echo "Analyzing with $model as model."
@@ -33,13 +36,13 @@ for model in "${models[@]}"; do
         cd "$model/$algorithm"
         file_list=($(find . -type f))
         if [ $algorithm == $ARRAY_MANIPULATION ]; then
-            analyses=($PARITY $SIGN)
+            analyses=($INTERVALS $SIGN)
         elif [ $algorithm == $CUSTOM ]; then
-            analyses=($PARITY $TARSIS)
+            analyses=($TAINT $SIGN)
         elif [ $algorithm == $SORTING ]; then
-            analyses=($SUFFIX $TARSIS)
+            analyses=($INTERVALS $PARITY)
         elif [ $algorithm == $STRING_MANIPULATION ]; then
-            analyses=($INTERVALS $TAINT)
+            analyses=($PREFIX $SUFFIX)
         fi
         for analysis in "${analyses[@]}"; do
             for file in "${file_list[@]}"; do

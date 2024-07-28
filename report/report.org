@@ -1,0 +1,4 @@
+#+title: SCRS 2024 final task
+#+SETUPFILE: /Users/visco/.config/doom/latex-standard-setup.org
+
+lol

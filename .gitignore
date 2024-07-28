@@ -4,3 +4,6 @@
 /zephyr-orpo-141b-A35b-v0.1/.DS_Store
 /zephyr-orpo-141b-A35b-v0.1/output/
 /c4ai-command-r-plus/output/
+
+*.pdf
+*.tex
