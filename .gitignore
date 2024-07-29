@@ -7,3 +7,5 @@
 
 *.pdf
 *.tex
+*.DS_Store
+/report/report.odt

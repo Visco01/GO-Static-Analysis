@@ -54,17 +54,164 @@ respect to two specific analysis domains chosen from a set of available domains.
 1. Carefully investigate the results from LiSA.
 2. Compile the findings into a coherent and detailed report, highlighting key insights and any issues detected during the analysis.
 
-By following this structured approach, the project aims to leverage AI-generated
-code and advanced static analysis tools to provide valuable insights into the
-behavior and correctness of algorithm implementations in GO. This will not only
-validate the effectiveness of generative AI models in producing functional code
-but also highlight the importance of thorough static analysis in ensuring code
-quality and reliability.
-
-
 
 * Domains involved
-* First model: c4ai-command-r-plus
+* First AI model: c4ai-command-r-plus
+** Array manipulation
+The static analysis for the generated GO code using the LiSA tool was conducted with two domains: *Sign* and *Intervals*.
+*** Binary Search
+The binary search algorithm is an efficient method for finding an element within a sorted array. It operates by repeatedly dividing the search interval in half. The key steps are:
+1. Initialize `left` to 0 and `right` to the last index of the array.
+2. Calculate `mid` as the average of `left` and `right`.
+3. If the middle element `arr[mid]` is equal to the target, return the index `mid`.
+4. If `arr[mid]` is less than the target, adjust `left` to `mid + 1`.
+5. If `arr[mid]` is greater than the target, adjust `right` to `mid - 1`.
+6. Repeat steps 2-5 until `left` exceeds `right`, at which point the target is not present in the array, and return -1.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func binarySearch(arr []int, target int) int {
+      left, right := 0, len(arr)-1
+      for left <= right {
+          mid := (left + right) / 2
+          if arr[mid] == target {
+              return mid
+          } else if arr[mid] < target {
+              left = mid + 1
+          } else {
+              right = mid - 1
+          }
+      }
+      return -1
+  }
+
+  func main() {
+      arr := []int{1, 2, 3, 4, 5}
+      target := 4
+      index := binarySearch(arr, target)
+      fmt.Println(index)
+  }
+#+end_src
+
+**** Graphical Output
+[[./img/c4ai-command-r-plus/array-manipulation/binary-search.png]]
+
+**** Intervals Domain analysis
+- `arr`: The array is not modified, hence its elements remain as [1, 2, 3, 4, 5].
+- `left`: Initially set to 0 and adjusted upwards, so the range is [0, 5].
+- `right`: Initially set to 4 and adjusted downwards, so the range is [-2, 4].
+- `mid`: Calculated as (left + right) / 2, so it depends on the ranges of `left` and `right`.
+- `target`: Fixed at 4, so the range is [4, 4].
+
+**** Signs Domain analysis
+- `arr`: Not applicable as the domain focuses on numerical values.
+- `left`: As `left` is incremented from 0, it remains positive or zero, so the sign is {0, +}.
+- `right`: Starts at 4 and decrements, potentially becoming negative, so the sign is {0, +, -} (TOP).
+- `mid`: Calculated as (left + right) / 2, can be positive or zero, so the sign is {0, +}.
+- `target`: Fixed at 4, thus positive, so the sign is {+}.
+
+*** Occurrence count
+The occurrence count algorithm iterates through an array and counts the number of times a target value appears. The key steps are:
+1. Initialize `count` to 0.
+2. Iterate over each element in the array `arr`.
+3. For each element `num`, check if it is equal to `target`.
+4. If `num` equals `target`, increment `count`.
+5. Return the value of `count` after the loop completes.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func occurrenceCount(arr []int, target int) int {
+      count := 0
+      for _, num := range arr {
+          if num == target {
+              count++
+          }
+      }
+      return count
+  }
+
+  func main() {
+      arr := []int{1, 2, 2, 3, 2, 4, 2, 5}
+      target := 2
+      fmt.Println(occurrenceCount(arr, target))
+  }
+#+end_src
+
+**** Graphical Output
+[[./img/c4ai-command-r-plus/array-manipulation/occurrence-count.png]]
+
+**** Intervals Domain analysis
+- `arr`: The array is not modified, hence its elements remain as [1, 2, 2, 3, 2, 4, 2, 5].
+- `count`: Initially set to 0 and increments each time a match is found. The range depends on the number of matches, so it is [0, 8].
+- `num`: Each element of the array `arr`, so the range is [1, 5].
+- `target`: Fixed at 2, so the range is [2, 2].
+
+**** Signs Domain analysis
+- `arr`: Not applicable as the domain focuses on numerical values.
+- `count`: Starts at 0 and increments, so the sign is {0, +}.
+- `num`: Takes values from the array, which are positive, so the sign is {+}.
+- `target`: Fixed at 2, thus positive, so the sign is {+}.
+
+*** Count unique elements
+The count unique elements algorithm utilizes a map to track unique values as it iterates through the array. The key steps are as follows:
+1. Initialize a map `uniqueMap` to keep track of unique numbers.
+2. Iterate over each element in the array `arr`.
+3. For each element `num`, add it to `uniqueMap` with a value of `true`.
+4. Return the number of unique keys in `uniqueMap` using `len()`.
+
+**** Generated code
+#+begin_src go
+package main
+
+import (
+	"fmt"
+)
+
+func countUniqueElements(arr []int) int {
+	uniqueMap := make(map[int]bool)
+	for _, num := range arr {
+		uniqueMap[num] = true
+	}
+	return len(uniqueMap)
+}
+
+func main() {
+	arr := []int{1, 2, 2, 3, 4, 4, 5}
+	fmt.Println(countUniqueElements(arr))
+}
+#+end_src
+**** Graphical Output
+[[./img/c4ai-command-r-plus/array-manipulation/count-unique-elements.png]]
+
+**** Intervals domain analysis
+- `arr`: The input array can contain both unique and duplicate elements; in
+  this case, it is `[1, 2, 2, 3, 4, 4, 5]`.
+- `uniqueMap`: This map will contain only unique elements; thus, its length
+  will vary depending on the number of unique elements found.
+- Return Value: The function returns the count of unique elements, which
+  ranges from `[0, n]`, where `n` is the length of the input array.
+
+**** Signs domain analysis
+- `arr`: Contains integers which can be both positive and negative, or zero,
+  hence signs it TOP.
+- `uniqueMap`: Not directly applicable as it stores unique keys.
+- Return Value: The return value represents the count of unique integers and
+  is always non-negative, so the sign set is {0, +}.
+
+
+
 * Second model: zephyr-orpo-141b-A35b-v0.1
 * Models comparison
 * Final considerations
