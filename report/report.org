@@ -211,7 +211,34 @@ func main() {
   is always non-negative, so the sign set is {0, +}.
 
 
-
+** Sorting
+*** Count sort
+*** Heap sort
+*** Insertion sort
+** String manipulation
+*** Chars occurrence
+*** Uppercase
+*** Words
+** Custom algorithms
+*** Distinct
+*** Letters
+*** Merge sort
 * Second model: zephyr-orpo-141b-A35b-v0.1
+** Array manipulation
+*** Binary search
+*** Count unique elements
+*** Occurrence count
+** Sorting
+*** Count sort
+*** Heap sort
+*** Insertion sort
+** String manipulation
+*** Chars occurrence
+*** Uppercase
+*** Words
+** Custom algorithms
+*** Distinct
+*** Letters
+*** Merge sort
 * Models comparison
 * Final considerations
