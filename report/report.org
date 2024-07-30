@@ -1,4 +1,5 @@
 #+title: SCRS 2024 final task
+#+author: Pietro Visconti
 #+SETUPFILE: /Users/visco/.config/doom/latex-standard-setup.org
 
 * Introduction
@@ -59,7 +60,7 @@ respect to two specific analysis domains chosen from a set of available domains.
 * First AI model: c4ai-command-r-plus
 ** Array manipulation
 The static analysis for the generated GO code using the LiSA tool was conducted with two domains: *Signs* and *Intervals*.
-*** Binary Search
+*** Binary search
 The binary search algorithm is an efficient method for finding an element within a sorted array. It operates by repeatedly dividing the search interval in half. The key steps are:
 1. Initialize `left` to 0 and `right` to the last index of the array.
 2. Calculate `mid` as the average of `left` and `right`.
@@ -642,9 +643,11 @@ The merging process involves comparing the elements of the sub-arrays and arrang
       fmt.Println(mergeSort(arr))
   }
 #+end_src
+#+LATEX: \newpage
 **** Graphical output
 #+CAPTION: Merge function
 [[./img/c4ai-command-r-plus/custom/merge.png]]
+
 #+CAPTION: Mergesort function
 [[./img/c4ai-command-r-plus/custom/mergesort.png]]
 **** Taint domain analysis
@@ -659,12 +662,165 @@ The merging process involves comparing the elements of the sub-arrays and arrang
 - `right`: Sub-array of `arr` from `mid` to end.
 - `result`: Merged and sorted array, built incrementally.
 - `i, j`: Indices used in merging, non-negative and incremented within bounds.
-
+#+LATEX: \newpage
 * Second model: zephyr-orpo-141b-A35b-v0.1
 ** Array manipulation
 *** Binary search
+1. **Initialization**: Set `low` to the first index and `high` to the last index of the array.
+2. **Divide and Conquer**:
+   - Calculate `mid` as the average of `low` and `high`.
+   - If the middle element `arr[mid]` is equal to the target, return the index `mid`.
+   - If `arr[mid]` is less than the target, adjust `low` to `mid + 1`.
+   - If `arr[mid]` is greater than the target, adjust `high` to `mid - 1`.
+3. **Repeat**: Continue the process until `low` exceeds `high`. If the target is not found, return -1.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func binarySearch(arr []int, target int) int {
+      low := 0
+      high := len(arr) - 1
+      for low <= high {
+          mid := (low + high) / 2
+          if arr[mid] == target {
+              return mid
+          } else if arr[mid] < target {
+              low = mid + 1
+          } else {
+              high = mid - 1
+          }
+      }
+      return -1
+  }
+
+  func main() {
+      arr := []int{1, 2, 3, 4, 5, 6, 7}
+      target := 5
+      index := binarySearch(arr, target)
+      if index == -1 {
+          fmt.Println("Element not found in the array.")
+      } else {
+          fmt.Printf("Element %d found at index %d.\n", target, index)
+      }
+  }
+#+end_src
+**** Graphical output
+[[./img/zephyr-orpo-141b-A35b-v0.1/array-manipulation/binary-search.png]]
+**** Intervals Domain analysis
+- `arr`: Sorted array, elements remain within their initial range.
+- `low`: Initially 0, incremented up to `high`, range is [0, len(arr) - 1].
+- `high`: Initially len(arr) - 1, decremented down to `low`, range is [0, len(arr) - 1].
+- `mid`: Calculated as (low + high) / 2, range is [0, len(arr) - 1].
+- `target`: Fixed, so range is a single value [target, target].
+
+**** Signs Domain analysis
+- `arr`: Array of integers, sign depends on elements.
+- `low`: Non-negative, sign is {0, +}.
+- `high`: Non-negative, sign is {0, +}.
+- `mid`: Non-negative, sign is {0, +}.
+- `target`: Depends on input, could be {0, +, -}.
 *** Count unique elements
+This algorithm counts the number of unique elements in an integer array by first sorting the array and then iterating through it to count distinct elements.
+
+1. **Sorting**: The array is sorted using the `sort.Ints()` function.
+2. **Counting Unique Elements**:
+   - Initialize `uniqueCount` to 1 since the first element is always unique.
+   - Iterate through the sorted array starting from the second element.
+   - If the current element is different from the previous element, increment the `uniqueCount`.
+
+This ensures that each unique element is counted exactly once.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+      "sort"
+  )
+
+  func countUniqueElements(arr []int) int {
+      sort.Ints(arr)
+      uniqueCount := 1
+      for i := 1; i < len(arr); i++ {
+          if arr[i] != arr[i-1] {
+              uniqueCount++
+          }
+      }
+      return uniqueCount
+  }
+
+  func main() {
+      arr := []int{1, 2, 3, 2, 4, 2, 5}
+      uniqueCount := countUniqueElements(arr)
+      fmt.Printf("There are %d unique elements in the array.\n", uniqueCount)
+  }
+#+end_src
+**** Graphical output
+[[./img/zephyr-orpo-141b-A35b-v0.1/array-manipulation/count-unique-elements.png]]
+**** Intervals Domain analysis
+- `arr`: Initially unsorted, sorted using `sort.Ints()`. Elements are bounded by the array's range.
+- `uniqueCount`: Initialized to 1, incremented for each unique element. Range is [1, len(arr)].
+- `i`: Iterates from 1 to len(arr) - 1. Range is [1, len(arr) - 1].
+
+**** Signs Domain analysis
+- `arr`: Array of integers, sign depends on elements.
+- `uniqueCount`: Non-negative, sign is {0, +}.
+- `i`: Non-negative, sign is {0, +}.
+
 *** Occurrence count
+This algorithm counts the number of occurrences of a target element in an integer array.
+
+1. **Initialization**: Set a counter `count` to 0.
+2. **Iteration**: Loop through each element in the array.
+   - If the current element equals the target, increment the `count`.
+3. **Return**: The final count of occurrences.
+
+This ensures that the target element's occurrences are accurately counted.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func countOccurrences(arr []int, target int) int {
+      count := 0
+      for _, num := range arr {
+          if num == target {
+              count++
+          }
+      }
+      return count
+  }
+
+  func main() {
+      arr := []int{1, 2, 3, 2, 4, 2, 5}
+      target := 2
+      count := countOccurrences(arr, target)
+      fmt.Printf("The number %d appears %d times in the array.\n", target, count)
+  }
+#+end_src
+**** Graphical output
+[[./img/zephyr-orpo-141b-A35b-v0.1/array-manipulation/occurrence-count.png]]
+**** Intervals Domain analysis
+- `arr`: Array of integers, values depend on input.
+- `target`: Fixed integer value.
+- `count`: Initialized to 0, incremented for each match. Range is [0, len(arr)].
+- `num`: Each element in `arr`. Range is dependent on `arr`.
+
+**** Signs Domain analysis
+- `arr`: Array of integers, sign depends on elements.
+- `target`: Fixed integer, sign depends on value.
+- `count`: Non-negative, sign is {0, +}.
+- `num`: Sign depends on elements in `arr`.
 ** Sorting
 *** Count sort
 *** Heap sort
