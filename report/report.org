@@ -520,6 +520,45 @@ The word count algorithm splits a string into words and returns the number of wo
 
 ** Custom algorithms
 *** Distinct
+The script checks if all elements in an array are distinct.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func areDistinct(arr []int) bool {
+      for i := 0; i < len(arr); i++ {
+          for j := i + 1; j < len(arr); j++ {
+              if arr[i] == arr[j] {
+                  return false
+              }
+          }
+      }
+      return true
+  }
+
+  func main() {
+      arr1 := []int{1, 2, 3, 4, 5}
+      fmt.Println(areDistinct(arr1))
+  }
+#+end_src
+**** Graphical output
+[[./img/c4ai-command-r-plus/custom/distinct.png]]
+**** Taint domain analysis
+- **Source**: No external user input, array is defined within the program.
+- **Sink**: `fmt.Println` - Outputs the result of `areDistinct`, no risk of tainted data.
+- **Sanitizer**: Not applicable, no tainted data.
+**** Signs domain analysis
+- `arr[i]`: Can be any integer. Sign depends on array values.
+- `arr[j]`: Can be any integer. Sign depends on array values.
+- `i`: Starts at 0 and increments up to `len(arr) - 1`. Sign is non-negative ({0, +}).
+- `j`: Starts at `i + 1` and increments up to `len(arr)`. Sign is non-negative and greater than `i` ({0, +}).
+- Return value: Boolean indicating distinct elements. Sign domain not applicable for boolean values.
+
 *** Letters
 *** Merge sort
 * Second model: zephyr-orpo-141b-A35b-v0.1
