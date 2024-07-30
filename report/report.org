@@ -823,8 +823,196 @@ This ensures that the target element's occurrences are accurately counted.
 - `num`: Sign depends on elements in `arr`.
 ** Sorting
 *** Count sort
+Count sort is a non-comparative sorting algorithm that sorts an array by counting the occurrences of each unique element. The steps are:
+1. **Find Maximum Value**: Determine the maximum value in the array.
+2. **Counting Occurrences**: Create a count array to store the frequency of each element.
+3. **Reconstruct Array**: Reconstruct the original array using the count array.
+
+This algorithm ensures that the array is sorted efficiently, especially when the range of input values is known and small.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func countSort(arr []int) {
+      max := arr[0]
+      for _, num := range arr {
+          if num > max {
+              max = num
+          }
+      }
+      count := make([]int, max+1)
+      for _, num := range arr {
+          count[num]++
+      }
+
+      index := 0
+      for i := 0; i < len(count); i++ {
+          for j := 0; j < count[i]; j++ {
+              arr[index] = i
+              index++
+          }
+      }
+  }
+
+  func main() {
+      arr := []int{64, 34, 25, 12, 22, 11, 90}
+      countSort(arr)
+      fmt.Println("Sorted array:", arr)
+  }
+#+end_src
+
+**** Graphical output
+[[./img/zephyr-orpo-141b-A35b-v0.1/sorting/count-sort.png]]
+**** Intervals Domain analysis
+- `arr`: Array of integers, values depend on input.
+- `max`: The maximum value in the array, range is [max(arr)].
+- `count`: Array of integers, size is `max+1`, values range from [0, len(arr)].
+- `num`: Each element in `arr`, range is [min(arr), max(arr)].
+- `index`: Index for reconstructing the array, range is [0, len(arr)-1].
+
+**** Parity Domain analysis
+- `arr`: Array of integers, parity depends on elements.
+- `max`: Maximum value, parity depends on `arr`.
+- `count`: Array size depends on `max`, parity of each element depends on `arr`.
+- `num`: Parity depends on elements in `arr`.
+- `index`: Parity is even (initially 0) and alternates as it increments.
 *** Heap sort
+Heap sort is a comparison-based sorting technique based on a binary heap data structure. It sorts an array by:
+1. **Building a Max Heap**: Reorder the array into a max heap.
+2. **Heapify**: Adjust the heap by ensuring the parent node is always larger than its children.
+3. **Extract Elements**: Move the largest element to the end and reduce the heap size, repeating the heapify process until the array is sorted.
+
+Heap sort has a time complexity of O(n log n) and is efficient for large data sets.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func heapify(arr []int, n, i int) {
+      largest := i
+      left := 2*i + 1
+      right := 2*i + 2
+      if left < n && arr[left] > arr[largest] {
+          largest = left
+      }
+
+      if right < n && arr[right] > arr[largest] {
+          largest = right
+      }
+
+      if largest != i {
+          arr[i], arr[largest] = arr[largest], arr[i]
+          heapify(arr, n, largest)
+      }
+  }
+
+  func heapSort(arr []int) {
+      n := len(arr)
+      for i := n/2 - 1; i >= 0; i-- {
+          heapify(arr, n, i)
+      }
+
+      for i := n - 1; i >= 0; i-- {
+          arr[0], arr[i] = arr[i], arr[0]
+          heapify(arr, i, 0)
+      }
+  }
+
+  func main() {
+      arr := []int{64, 34, 25, 12, 22, 11, 90}
+      heapSort(arr)
+      fmt.Println("Sorted array:", arr)
+  }
+#+end_src
+**** Graphical output
+#+CAPTION: Heapify function
+[[./img/zephyr-orpo-141b-A35b-v0.1/sorting/heapify.png]]
+#+CAPTION: Heapsort function
+[[./img/zephyr-orpo-141b-A35b-v0.1/sorting/heapsort.png]]
+**** Intervals Domain analysis
+- `arr`: Array of integers, values depend on input.
+- `n`: Length of the array, range is [0, len(arr)].
+- `i`: Index used in loops, range is [0, len(arr)-1].
+- `largest`: Index of the largest element, range is [0, len(arr)-1].
+- `left`: Left child index, range is [0, 2*(len(arr)-1) + 1].
+- `right`: Right child index, range is [0, 2*(len(arr)-1) + 2].
+
+**** Parity Domain analysis
+- `arr`: Array of integers, parity depends on elements.
+- `n`: Length of the array, parity depends on `arr`.
+- `i`: Index used in loops, parity alternates as it increments.
+- `largest`: Parity depends on comparisons, can be {even, odd}.
+- `left`: Parity alternates as it increments, can be {even, odd}.
+- `right`: Parity alternates as it increments, can be {even, odd}.
 *** Insertion sort
+Insertion Sort is a simple sorting algorithm that builds the final sorted array one item at a time. It is much less efficient on large lists than more advanced algorithms such as quicksort, heapsort, or merge sort. The key steps are:
+1. **Initialize**: Start with the first element, as a single-element list is already sorted.
+2. **Insert**: Pick the next element and insert it into the sorted part of the array in its correct position.
+3. **Shift**: Shift all larger elements one position to the right to make space for the inserted element.
+
+Insertion sort has a time complexity of O(n^2) and is efficient for small data sets or nearly sorted data.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func insertionSort(arr []int) {
+      for i := 1; i < len(arr); i++ {
+          key := arr[i]
+          j := i - 1
+          for j >= 0 && arr[j] > key {
+              arr[j+1] = arr[j]
+              j--
+          }
+          arr[j+1] = key
+      }
+  }
+
+  func main() {
+      arr := []int{64, 34, 25, 12, 22, 11, 90}
+      insertionSort(arr)
+      fmt.Println("Sorted array:", arr)
+  }
+#+end_src
+
+**** Intervals Domain analysis
+- `arr`: Array of integers, values depend on input.
+- `i`: Index used in loops, range is [1, len(arr)-1].
+- `key`: Element being compared and inserted, value depends on `arr`.
+- `j`: Index used in inner loop, range is [-1, len(arr)-2].
+
+**** Parity Domain analysis
+- `arr`: Array of integers, parity depends on elements.
+- `i`: Index used in loops, parity alternates as it increments.
+- `key`: Parity depends on `arr[i]`, can be {even, odd}.
+- `j`: Index used in inner loop, parity alternates as it decrements, can be {even, odd}.
+**** Graphical output
+[[./img/zephyr-orpo-141b-A35b-v0.1/sorting/insertion-sort.png]]
+**** Intervals Domain analysis
+- `arr`: Array of integers, values depend on input.
+- `i`: Index used in loops, range is [1, len(arr)-1].
+- `key`: Element being compared and inserted, value depends on `arr`.
+- `j`: Index used in inner loop, range is [-1, len(arr)-2].
+
+**** Parity Domain analysis
+- `arr`: Array of integers, parity depends on elements.
+- `i`: Index used in loops, parity alternates as it increments.
+- `key`: Parity depends on `arr[i]`, can be {even, odd}.
+- `j`: Index used in inner loop, parity alternates as it decrements, can be {even, odd}.
+
 ** String manipulation
 *** Chars occurrence
 *** Uppercase
