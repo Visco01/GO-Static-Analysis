@@ -520,7 +520,7 @@ The word count algorithm splits a string into words and returns the number of wo
 
 ** Custom algorithms
 *** Distinct
-The script checks if all elements in an array are distinct.
+The algorithm checks if all elements in an array are distinct.
 
 **** Generated code
 #+begin_src go
@@ -559,8 +559,107 @@ The script checks if all elements in an array are distinct.
 - `j`: Starts at `i + 1` and increments up to `len(arr)`. Sign is non-negative and greater than `i` ({0, +}).
 - Return value: Boolean indicating distinct elements. Sign domain not applicable for boolean values.
 
-*** Letters
+*** Alphabetic check
+The script checks if all characters in a string are alphabetic.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+      "unicode"
+  )
+
+  func isAlphabetic(s string) bool {
+      for _, c := range s {
+          if !unicode.IsLetter(c) {
+              return false
+          }
+      }
+      return true
+  }
+
+  func main() {
+      fmt.Println(isAlphabetic("hello"))
+  }
+#+end_src
+**** Graphical output
+[[./img/c4ai-command-r-plus/custom/is-alphabetic.png]]
+**** Taint domain analysis
+- **Source**: The string "hello" is directly defined within the program.
+- **Sink**: `fmt.Println` - Outputs the result of `isAlphabetic`, no risk of tainted data.
+- **Sanitizer**: Not applicable, no tainted data.
+**** Signs domain analysis
+- `s`: Input string. The analysis checks each character.
+- `c`: Iterates over each character in `s`. Each `c` is a rune, sign domain not applicable.
+- Return value: Boolean indicating if all characters are alphabetic. Sign domain not applicable for boolean values.
 *** Merge sort
+The merge sort algorithm is a classic divide-and-conquer algorithm used for sorting an array or list of elements. Here’s a detailed overview of how it works:
+1. **Divide**: The algorithm divides the input array into two halves. This division continues recursively until each sub-array contains only one element, which is inherently sorted.
+2. **Conquer**: The algorithm then merges the sub-arrays back together in a sorted order. This merging process ensures that the combined array is sorted.
+3. **Combine**: Finally, the algorithm combines the sub-arrays to form the sorted array.
+
+The merging process involves comparing the elements of the sub-arrays and arranging them in the correct order. The algorithm continues this process until the entire array is sorted. Merge sort is known for its stable sorting and O(n log n) time complexity.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func mergeSort(arr []int) []int {
+      if len(arr) <= 1 {
+          return arr
+      }
+      mid := len(arr) / 2
+      left := mergeSort(arr[:mid])
+      right := mergeSort(arr[mid:])
+      return merge(left, right)
+  }
+
+  func merge(left []int, right []int) []int {
+      result := []int{}
+      i, j := 0, 0
+      for i < len(left) && j < len(right) {
+          if left[i] < right[j] {
+              result = append(result, left[i])
+              i++
+          } else {
+              result = append(result, right[j])
+              j++
+          }
+      }
+      result = append(result, left[i:]...)
+      result = append(result, right[j:]...)
+      return result
+  }
+
+  func main() {
+      arr := []int{3, 1, 4, 1, 5, 9, 2}
+      fmt.Println(mergeSort(arr))
+  }
+#+end_src
+**** Graphical output
+#+CAPTION: Merge function
+[[./img/c4ai-command-r-plus/custom/merge.png]]
+#+CAPTION: Mergesort function
+[[./img/c4ai-command-r-plus/custom/mergesort.png]]
+**** Taint domain analysis
+- **Source**: `arr` initialized within `main`.
+- **Sink**: `fmt.Println` outputs the result of `mergeSort`.
+- **Sanitizer**: Not applicable as there is no external tainted data.
+
+**** Signs domain analysis
+- `arr`: Contains integers with a range of values.
+- `mid`: Index computed as `len(arr) / 2`, always non-negative.
+- `left`: Sub-array of `arr` from index 0 to `mid`.
+- `right`: Sub-array of `arr` from `mid` to end.
+- `result`: Merged and sorted array, built incrementally.
+- `i, j`: Indices used in merging, non-negative and incremented within bounds.
+
 * Second model: zephyr-orpo-141b-A35b-v0.1
 ** Array manipulation
 *** Binary search
