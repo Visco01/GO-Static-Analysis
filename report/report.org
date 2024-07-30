@@ -58,7 +58,7 @@ respect to two specific analysis domains chosen from a set of available domains.
 * Domains involved
 * First AI model: c4ai-command-r-plus
 ** Array manipulation
-The static analysis for the generated GO code using the LiSA tool was conducted with two domains: *Sign* and *Intervals*.
+The static analysis for the generated GO code using the LiSA tool was conducted with two domains: *Signs* and *Intervals*.
 *** Binary Search
 The binary search algorithm is an efficient method for finding an element within a sorted array. It operates by repeatedly dividing the search interval in half. The key steps are:
 1. Initialize `left` to 0 and `right` to the last index of the array.
@@ -192,7 +192,7 @@ func main() {
 	fmt.Println(countUniqueElements(arr))
 }
 #+end_src
-**** Graphical Output
+**** Graphical output
 [[./img/c4ai-command-r-plus/array-manipulation/count-unique-elements.png]]
 
 **** Intervals domain analysis
@@ -212,13 +212,312 @@ func main() {
 
 
 ** Sorting
+The static analysis for the generated GO code using the LiSA tool was conducted with two domains: *Parity* and *Intervals*.
 *** Count sort
+The count sort algorithm sorts an array by counting the occurrences of each unique value. The key steps are:
+1. Find the maximum value in the array to determine the size of the count array.
+2. Initialize a count array with zeros.
+3. Count the occurrences of each element in the original array.
+4. Use the count array to construct the sorted array.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func countSort(arr []int) []int {
+      maxVal := 0
+      for _, num := range arr {
+          if num > maxVal {
+              maxVal = num
+          }
+      }
+
+      count := make([]int, maxVal+1)
+      for _, num := range arr {
+          count[num]++
+      }
+
+      sortedIndex := 0
+      for i, freq := range count {
+          for j := 0; j < freq; j++ {
+              arr[sortedIndex] = i
+              sortedIndex++
+          }
+      }
+
+      return arr
+  }
+
+  func main() {
+      arr := []int{2, 5, 3, 7, 2, 3, 6}
+      fmt.Println(countSort(arr))
+  }
+#+end_src
+
+**** Graphical output
+[[./img/c4ai-command-r-plus/sorting/count-sort.png]]
+**** Intervals domain analysis
+- `arr`: The array is modified, and its elements are sorted. The initial range is [2, 7].
+- `maxVal`: Initially set to 0 and updated to the maximum value in `arr`. The range is [0, 7].
+- `count`: Array created with a size of `maxVal+1`, elements incremented based on occurrences in `arr`. Each element's range is [0, 3].
+- `sortedIndex`: Used to insert elements into `arr`, incremented from 0. The range is [0, 7].
+- `num`: Each element of the array `arr`, so the range is [2, 7].
+- `i`: Index for iterating over `count`, ranging from 0 to `maxVal`. The range is [0, 7].
+- `freq`: The value from the count array, representing the frequency of `i` in the original array. The range is [0, 3].
+- `j`: Iterates from 0 to `freq`, ranges from [0, 3].
+
+**** Parity domain analysis
+- `arr`: Not applicable as the domain focuses on numerical values.
+- `maxVal`: Represents the maximum value from `arr`, always positive. The parity is even or odd depending on `maxVal`.
+- `count`: Elements incremented based on occurrences in `arr`. Values can be even or odd.
+- `sortedIndex`: Increments from 0. The parity is {even}.
+- `num`: Takes values from the array, either even or odd.
+- `i`: Index iterating over `count`, can be even or odd.
+- `freq`: The value from the count array, representing the frequency of `i`. Can be even or odd.
+- `j`: Iterates from 0 to `freq`, parity depends on `freq`.
+
 *** Heap sort
+Heap sort is a comparison-based sorting algorithm that utilizes a binary heap data structure. The key steps are:
+1. Build a max heap from the input data.
+2. Swap the root of the heap with the last element of the heap.
+3. Reduce the heap size by one and call `heapify` on the root.
+4. Repeat steps 2-3 until the heap is reduced to a single element.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func heapify(arr []int, N int, i int) {
+      largest := i
+      left := 2*i + 1
+      right := 2*i + 2
+
+      if left < N && arr[left] > arr[largest] {
+          largest = left
+      }
+
+      if right < N && arr[right] > arr[largest] {
+          largest = right
+      }
+
+      if largest != i {
+          arr[i], arr[largest] = arr[largest], arr[i]
+          heapify(arr, N, largest)
+      }
+  }
+
+  func heapSort(arr []int) {
+      N := len(arr)
+
+      for i := N / 2; i >= 0; i-- {
+          heapify(arr, N, i)
+      }
+
+      for i := N - 1; i > 0; i-- {
+          arr[i], arr[0] = arr[0], arr[i]
+          heapify(arr, i, 0)
+      }
+  }
+
+  func main() {
+      arr := []int{12, 11, 13, 5, 6, 7}
+      heapSort(arr)
+      fmt.Println(arr)
+  }
+#+end_src
+**** Graphical output
+#+CAPTION: Main heapsort function
+[[./img/c4ai-command-r-plus/sorting/heap-sort-heapsort.png]]
+
+#+CAPTION: Heapify function
+[[./img/c4ai-command-r-plus/sorting/heap-sort-heapify.png]]
+**** Intervals domain analysis
+- `arr`: The array is modified during heap construction and sorting. The initial range is [5, 13].
+- `N`: Represents the length of the array, fixed at 6. The range is [6, 6].
+- `i`: Used in the loops for building and sorting the heap. The range is [0, 6].
+- `largest`: Used to track the largest value during heapify, varies between 0 and `N-1`. The range is [0, 6].
+- `left`: Calculated as 2*i + 1, ranges from 1 to 13. The range is [1, 13].
+- `right`: Calculated as 2*i + 2, ranges from 2 to 14. The range is [2, 14].
+**** Parity domain analysis
+- `arr`: Not applicable as the domain focuses on numerical values.
+- `N`: Fixed at 6, hence the parity is even.
+- `i`: Used in the loops, varies from 0 to `N-1`, hence the parity is {even, odd}.
+- `largest`: Tracks the largest value during heapify, varies between 0 and `N-1`, hence the parity is {even, odd}.
+- `left`: Calculated as 2*i + 1, hence the parity is {odd}.
+- `right`: Calculated as 2*i + 2, hence the parity is {even}.
 *** Insertion sort
+Insertion sort is a simple and intuitive sorting algorithm that builds the final sorted array one item at a time. It is much less efficient on large lists than more advanced algorithms such as quicksort, heapsort, or merge sort. The key steps are:
+1. Iterate from the second element to the end of the array.
+2. For each element, compare it with the elements before it and insert it into its correct position by shifting elements as necessary.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func insertionSort(arr []int) {
+      for i := 1; i < len(arr); i++ {
+          key := arr[i]
+          j := i - 1
+          for j >= 0 && arr[j] > key {
+              arr[j+1] = arr[j]
+              j--
+          }
+          arr[j+1] = key
+      }
+  }
+
+  func main() {
+      arr := []int{12, 11, 13, 5, 6}
+      insertionSort(arr)
+      fmt.Println(arr)
+  }
+#+end_src
+
+**** Graphical output
+[[./img/c4ai-command-r-plus/sorting/insertion-sort.png]]
+**** Intervals domain analysis
+- `arr`: The array is modified during sorting. The initial range is [5, 13].
+- `i`: Used to iterate from 1 to the end of the array. The range is [1, 5].
+- `key`: Takes the value of `arr[i]` during each iteration. The range is [5, 13].
+- `j`: Used to iterate backwards from `i-1` to 0. The range is [0, 4].
+**** Parity domain analysis
+- `arr`: Not applicable as the domain focuses on numerical values.
+- `i`: Used in the loop, varies from 1 to len(arr)-1, hence the parity is {odd}.
+- `key`: Takes values from the array, can be either even or odd.
+- `j`: Used to iterate backwards from `i-1` to 0, hence the parity is {even, odd}.
 ** String manipulation
-*** Chars occurrence
-*** Uppercase
-*** Words
+The static analysis for the generated GO code using the LiSA tool was conducted with two domains: *Prefix* and *Suffix*.
+*** Chars occurrences
+The character occurrences algorithm counts the number of times a specific character appears in a string. The key steps are:
+1. Iterate through each character in the string.
+2. Compare each character with the target character.
+3. Increment the count if a match is found.
+4. Return the final count.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func countCharOccurrences(str string, char rune) int {
+      count := 0
+      for i := 0; i < len(str); i++ {
+          if rune(str[i]) == char {
+              count++
+          }
+      }
+      return count
+  }
+
+  func main() {
+      str := "hello world"
+      char := 'l'
+      fmt.Println(countCharOccurrences(str, char))
+  }
+#+end_src
+**** Graphical output
+[[./img/c4ai-command-r-plus/string-manipulation/char-occurrence.png]]
+**** Prefix domain analysis
+- `str`: The input string remains unchanged. The prefix domain indicates the presence of substrings starting from the beginning of the string.
+- `char`: The target character, a single rune. In the prefix domain, it represents the character to be matched against the initial segments of `str`.
+- `count`: The variable to store the occurrence count, starting from 0 and increasing. The prefix domain shows the progression of counts as the string is processed.
+- `i`: Used to iterate over the string. The prefix domain captures the substring from `0` to `i`.
+**** Suffix domain analysis
+- `str`: The input string remains unchanged. The suffix domain indicates the presence of substrings ending at different points in the string.
+- `char`: The target character, a single rune. In the suffix domain, it represents the character to be matched against the final segments of `str`.
+- `count`: The variable to store the occurrence count, starting from 0 and increasing. The suffix domain shows the progression of counts as the string is processed.
+- `i`: Used to iterate over the string. The suffix domain captures the substring from `i` to the end.
+*** Uppercase conversion
+The uppercase conversion algorithm converts each character in a string to its uppercase equivalent. The key steps are:
+1. Initialize a byte slice to hold the uppercase characters.
+2. Iterate through each character in the string.
+3. Convert each character to uppercase and store it in the byte slice.
+4. Return the resulting uppercase string.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+      "strings"
+  )
+
+  func makeUppercase(str string, length int) string {
+      upper := make([]byte, length)
+      for i := 0; i < length; i++ {
+          upper[i] = byte(strings.ToUpper(string(str[i]))[0])
+      }
+      return string(upper)
+  }
+
+  func main() {
+      str := "ciao"
+      fmt.Println(makeUppercase(str, len(str)))
+  }
+#+end_src
+**** Graphical output
+[[./img/c4ai-command-r-plus/string-manipulation/uppercase.png]]
+**** Prefix domain analysis
+- `str`: The input string remains unchanged. The prefix domain indicates the presence of substrings starting from the beginning of the string.
+- `length`: The length of the string, which is fixed. The prefix domain represents the length of the substring being processed.
+- `upper`: The byte slice to store uppercase characters. In the prefix domain, it shows the progression of uppercase characters as the string is processed.
+- `i`: Used to iterate over the string. The prefix domain captures the substring from `0` to `i`.
+**** Suffix domain analysis
+- `str`: The input string remains unchanged. The suffix domain indicates the presence of substrings ending at different points in the string.
+- `length`: The length of the string, which is fixed. The suffix domain represents the length of the substring being processed.
+- `upper`: The byte slice to store uppercase characters. In the suffix domain, it shows the progression of uppercase characters as the string is processed.
+- `i`: Used to iterate over the string. The suffix domain captures the substring from `i` to the end.
+*** Words count
+The word count algorithm splits a string into words and returns the number of words. The key steps are:
+1. Use `strings.Fields` to split the string by whitespace.
+2. Return the length of the resulting slice, which represents the number of words.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+      "strings"
+  )
+
+  func countWords(str string) int {
+      words := strings.Fields(str)
+      return len(words)
+  }
+
+  func main() {
+      str := "the house is white"
+      fmt.Println(countWords(str))
+  }
+#+end_src
+**** Graphical output
+[[./img/c4ai-command-r-plus/string-manipulation/words.png]]
+**** Prefix domain analysis
+- `str`: The input string remains unchanged. The prefix domain indicates the presence of substrings starting from the beginning of the string.
+- `words`: The slice of words obtained by splitting `str`. In the prefix domain, it shows the progression of word accumulation as the string is processed.
+- `count`: The length of the `words` slice. In the prefix domain, it represents the count of words identified from the start of the string up to the current position.
+**** Suffix domain analysis
+- `str`: The input string remains unchanged. The suffix domain indicates the presence of substrings ending at different points in the string.
+- `words`: The slice of words obtained by splitting `str`. In the suffix domain, it shows the progression of word accumulation as the string is processed.
+- `count`: The length of the `words` slice. In the suffix domain, it represents the count of words identified from the current position to the end of the string.
+
 ** Custom algorithms
 *** Distinct
 *** Letters
