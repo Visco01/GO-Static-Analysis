@@ -211,7 +211,6 @@ func main() {
 - Return Value: The return value represents the count of unique integers and
   is always non-negative, so the sign set is {0, +}.
 
-
 ** Sorting
 The static analysis for the generated GO code using the LiSA tool was conducted with two domains: *Parity* and *Intervals*.
 *** Count sort
@@ -663,7 +662,7 @@ The merging process involves comparing the elements of the sub-arrays and arrang
 - `result`: Merged and sorted array, built incrementally.
 - `i, j`: Indices used in merging, non-negative and incremented within bounds.
 #+LATEX: \newpage
-* Second model: zephyr-orpo-141b-A35b-v0.1
+* Second AI model: zephyr-orpo-141b-A35b-v0.1
 ** Array manipulation
 *** Binary search
 1. **Initialization**: Set `low` to the first index and `high` to the last index of the array.
@@ -988,17 +987,6 @@ Insertion sort has a time complexity of O(n^2) and is efficient for small data s
   }
 #+end_src
 
-**** Intervals Domain analysis
-- `arr`: Array of integers, values depend on input.
-- `i`: Index used in loops, range is [1, len(arr)-1].
-- `key`: Element being compared and inserted, value depends on `arr`.
-- `j`: Index used in inner loop, range is [-1, len(arr)-2].
-
-**** Parity Domain analysis
-- `arr`: Array of integers, parity depends on elements.
-- `i`: Index used in loops, parity alternates as it increments.
-- `key`: Parity depends on `arr[i]`, can be {even, odd}.
-- `j`: Index used in inner loop, parity alternates as it decrements, can be {even, odd}.
 **** Graphical output
 [[./img/zephyr-orpo-141b-A35b-v0.1/sorting/insertion-sort.png]]
 **** Intervals Domain analysis
@@ -1014,12 +1002,256 @@ Insertion sort has a time complexity of O(n^2) and is efficient for small data s
 - `j`: Index used in inner loop, parity alternates as it decrements, can be {even, odd}.
 
 ** String manipulation
+The static analysis for the generated GO code using the LiSA tool was conducted with two domains: *Prefix* and *Suffix*.
 *** Chars occurrence
+The character occurrence algorithm counts the number of times a specific character appears in a given string. It iterates over each character in the string and increments a counter if the character matches the target character. This algorithm is useful in various text processing tasks where frequency analysis of characters is needed.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func countChar(s string, c rune) int {
+      count := 0
+      for _, char := range s {
+          if rune(char) == c {
+              count++
+          }
+      }
+      return count
+  }
+
+  func main() {
+      s := "hello world"
+      c := 'l'
+      fmt.Println(countChar(s, c))
+  }
+#+end_src
+**** Graphical output
+[[./img/zephyr-orpo-141b-A35b-v0.1/string-manipulation/char-occurrence.png]]
+**** Prefix Domain analysis
+- `s`: The input string, can have any prefix depending on its content.
+- `c`: The character to be counted, fixed as 'l'.
+- `char`: Current character in the string, depends on the prefix of `s`.
+- `count`: Accumulates the count of occurrences of `c`, prefix indicates the counts seen so far.
+
+**** Suffix Domain analysis
+- `s`: The input string, can have any suffix depending on its content.
+- `c`: The character to be counted, fixed as 'l'.
+- `char`: Current character in the string, depends on the suffix of `s`.
+- `count`: Accumulates the count of occurrences of `c`, suffix indicates the remaining counts to be processed.
+
 *** Uppercase
+The uppercase conversion algorithm transforms all characters in a given string to their uppercase equivalents. It iterates over each character in the string and converts it using the `ToUpper` function from the `strings` package. This is useful for normalization of text data in various applications.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+      "strings"
+  )
+
+  func toUpperCase(s string) string {
+      return strings.ToUpper(s)
+  }
+
+  func main() {
+      s := "ciao"
+      fmt.Println(toUpperCase(s))
+  }
+#+end_src
+
+**** Graphical output
+[[./img/zephyr-orpo-141b-A35b-v0.1/string-manipulation/uppercase.png]]
+**** Prefix Domain analysis
+- `s`: The input string, can have any prefix depending on its content.
+- `toUpperCase(s)`: The transformation to uppercase, results in a string where each character of the prefix of `s` is converted to its uppercase equivalent.
+
+**** Suffix Domain analysis
+- `s`: The input string, can have any suffix depending on its content.
+- `toUpperCase(s)`: The transformation to uppercase, results in a string where each character of the suffix of `s` is converted to its uppercase equivalent.
+
 *** Words
+The count words algorithm determines the number of words in a given string. It uses the `strings.Fields` function to split the string by whitespace and returns the length of the resulting slice. This is useful for text processing and analysis tasks where word count is needed.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+      "strings"
+  )
+
+  func countWords(s string) int {
+      return len(strings.Fields(s))
+  }
+
+  func main() {
+      s := "the house is white"
+      fmt.Println(countWords(s))
+  }
+#+end_src
+**** Graphical output
+[[./img/zephyr-orpo-141b-A35b-v0.1/string-manipulation/words.png]]
+**** Prefix Domain analysis
+- `s`: The input string, can have any prefix consisting of words and whitespace.
+- `strings.Fields(s)`: Splits the string by whitespace, so the prefix of `s` is considered until a whitespace is encountered.
+
+**** Suffix Domain analysis
+- `s`: The input string, can have any suffix consisting of words and whitespace.
+- `strings.Fields(s)`: Splits the string by whitespace, so the suffix of `s` is considered after the last whitespace.
+
 ** Custom algorithms
 *** Distinct
-*** Letters
+The isDistinct algorithm checks if all elements in an array are unique. It uses a map to track the elements that have been seen. If any element is seen more than once, it returns false; otherwise, it returns true.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func isDistinct(arr []int) bool {
+      seen := make(map[int]bool)
+      for _, num := range arr {
+          if seen[num] {
+              return false
+          }
+          seen[num] = true
+      }
+      return true
+  }
+
+  func main() {
+      arr := []int{1, 2, 3, 4, 5}
+      fmt.Println(isDistinct(arr))
+  }
+#+end_src
+**** Graphical output
+[[./img/zephyr-orpo-141b-A35b-v0.1/custom/distinct.png]]
+**** Taint Domain analysis
+- `arr`: Fixed array, not tainted as it doesn't come from an external input.
+- `seen`: Map tracking seen elements, derived from `arr` and not tainted.
+- `num`: Each element of `arr`, not tainted as it is fixed.
+- `seen[num]`: Check if element has been seen, not tainted.
+- Return value: Not tainted since `arr` is not from an external source.
+
+**** Signs Domain analysis
+- `arr`: Elements are positive integers, so signs are {+}.
+- `seen`: Tracks elements, hence signs depend on elements of `arr`.
+- `num`: Derived from `arr`, so signs are {+}.
+- Return value: Boolean, does not have a sign value but depends on signs of `arr`.
+
+*** Alphabetic check
+The isAlphabetic function checks if all characters in a string are alphabetic. It iterates over each character and returns false if any character is not a letter.
+
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+      "unicode"
+  )
+
+  func isAlphabetic(s string) bool {
+      for _, r := range s {
+          if !unicode.IsLetter(r) {
+              return false
+          }
+      }
+      return true
+  }
+
+  func main() {
+      fmt.Println(isAlphabetic("helloworld"))
+  }
+#+end_src
+**** Graphical output
+[[./img/zephyr-orpo-141b-A35b-v0.1/custom/alphabetic-check.png]]
+**** Taint Domain analysis
+- `s`: Fixed string, not tainted as it doesn't come from an external input.
+- `r`: Each character in `s`, not tainted as `s` is fixed.
+- `unicode.IsLetter(r)`: Checks if character is a letter, not tainted.
+- Return value: Not tainted since `s` is not from an external source.
+
+**** Signs Domain analysis
+- `s`: String type, does not have sign value.
+- `r`: Rune type, representing each character, does not have sign value.
+- Return value: Boolean, does not have a sign value but depends on characters in `s`.
+
 *** Merge sort
+**** Generated code
+#+begin_src go
+  package main
+
+  import (
+      "fmt"
+  )
+
+  func mergeSort(arr []int) []int {
+      if len(arr) <= 1 {
+          return arr
+      }
+
+      mid := len(arr) / 2
+      left := mergeSort(arr[:mid])
+      right := mergeSort(arr[mid:])
+
+      return merge(left, right)
+  }
+
+  func merge(left, right []int) []int {
+      result := make([]int, 0, len(left)+len(right))
+
+      i, j := 0, 0
+      for i < len(left) && j < len(right) {
+          if left[i] <= right[j] {
+              result = append(result, left[i])
+              i++
+          } else {
+              result = append(result, right[j])
+              j++
+          }
+      }
+
+      result = append(result, left[i:]...)
+      result = append(result, right[j:]...)
+
+      return result
+  }
+
+  func main() {
+      arr := []int{5, 2, 4, 7, 1, 3, 2, 6}
+      fmt.Println(mergeSort(arr))
+  }
+#+end_src
+**** Graphical output
+#+CAPTION: Merge function
+[[./img/zephyr-orpo-141b-A35b-v0.1/custom/merge.png]]
+#+CAPTION: Mergesort function
+[[./img/zephyr-orpo-141b-A35b-v0.1/custom/mergesort.png]]
+**** Taint Domain analysis
+- `arr`: Fixed array, not tainted as it doesn't come from an external input.
+- `left`, `right`: Slices of `arr`, not tainted as `arr` is fixed.
+- `result`: Merged array from `left` and `right`, not tainted since all elements originate from `arr`.
+- Return value: Not tainted since `arr` is not from an external source.
+
+**** Signs Domain analysis
+- `arr`: Contains integer values, can be positive, negative, or zero (signs: {0, +, -}).
+- `mid`: Calculated as len(arr)/2, always positive or zero (signs: {0, +}).
+- `left`, `right`: Slices of `arr`, inherit the sign values from `arr` (signs: {0, +, -}).
+- `i`, `j`: Indices for iteration, always positive or zero (signs: {0, +}).
+- `result`: Merged array, inherits the sign values from `arr` (signs: {0, +, -}).
+- Return value: Sorted array, inherits the sign values from `arr` (signs: {0, +, -}).
+
 * Models comparison
 * Final considerations
