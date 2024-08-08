@@ -2,6 +2,7 @@
 #+author: Pietro Visconti
 #+SETUPFILE: /Users/visco/.config/doom/latex-standard-setup.org
 
+#+LATEX: \newpage
 * Introduction
 This project involves the generation and analysis of algorithm implementations
 in the GO programming language, leveraging generative AI models. The primary
@@ -46,8 +47,8 @@ Once the algorithms are generated through the chosen models:
 1. The results from LiSA will be carefully investigated.
 2. The findings will be compilated into a coherent and detailed report, highlighting key insights and any issues detected during the analysis.
 
-
-* Introduction to Analysis Domains
+#+LATEX: \newpage
+* Domains involved into the report
 
 In the context of static analysis for software verification and security, various abstract domains are employed to capture specific properties of programs. Each domain focuses on a particular aspect of the program’s behavior or structure. This section introduces the domains used in our analyses: Intervals, Signs, Parity, Prefix, Suffix, and Taint.
 
@@ -94,6 +95,7 @@ In the context of static analysis for software verification and security, variou
 
 With this foundational understanding of the analysis domains, let's proceed to the detailed analysis of various algorithms, leveraging these domains to ensure correctness, security, and reliability.
 
+#+LATEX: \newpage
 * First AI model: c4ai-command-r-plus
 ** Array manipulation
 The static analysis for the generated GO code using the LiSA tool was conducted with two domains: *Signs* and *Intervals*.
@@ -585,9 +587,12 @@ The algorithm checks if all elements in an array are distinct.
 **** Graphical output
 [[./img/c4ai-command-r-plus/custom/distinct.png]]
 **** Taint domain analysis
-- **Source**: No external user input, array is defined within the program.
-- **Sink**: `fmt.Println` - Outputs the result of `areDistinct`, no risk of tainted data.
-- **Sanitizer**: Not applicable, no tainted data.
+- `arr`: Fixed array, not tainted as it doesn’t come from an external input.
+- `seen`: Map tracking seen elements, derived from `arr` and not tainted.
+- `num`: Each element of `arr`, not tainted as it is fixed.
+- `seen[num]`: Check if element has been seen, not tainted since both `seen` and `num` are not tainted.
+- `seen[num] = true`: Assignment to map, not tainted as both `seen` and `num` are not tainted.
+- Return value: Not tainted since `arr` is not from an external source.
 **** Signs domain analysis
 - `arr[i]`: Can be any integer. Sign depends on array values.
 - `arr[j]`: Can be any integer. Sign depends on array values.
@@ -623,9 +628,10 @@ The script checks if all characters in a string are alphabetic.
 **** Graphical output
 [[./img/c4ai-command-r-plus/custom/is-alphabetic.png]]
 **** Taint domain analysis
-- **Source**: The string "hello" is directly defined within the program.
-- **Sink**: `fmt.Println` - Outputs the result of `isAlphabetic`, no risk of tainted data.
-- **Sanitizer**: Not applicable, no tainted data.
+- `s`: Fixed string input, not tainted as it doesn't come from an external input.
+- `c`: Each character in `s`, derived from a non-tainted source, not tainted.
+- `unicode.IsLetter(c)`: Checks if `c` is an alphabetic character, not tainted as `c` is not tainted.
+- Return value of `isAlphabetic`: Not tainted since `s` is not from an external source.
 **** Signs domain analysis
 - `s`: Input string. The analysis checks each character.
 - `c`: Iterates over each character in `s`. Each `c` is a rune, sign domain not applicable.
@@ -686,9 +692,15 @@ The merging process involves comparing the elements of the sub-arrays and arrang
 #+CAPTION: Mergesort function
 [[./img/c4ai-command-r-plus/custom/mergesort.png]]
 **** Taint domain analysis
-- **Source**: `arr` initialized within `main`.
-- **Sink**: `fmt.Println` outputs the result of `mergeSort`.
-- **Sanitizer**: Not applicable as there is no external tainted data.
+- `arr`: Fixed array, not tainted as it doesn't come from an external input.
+- `mid`: Index derived from `arr`, not tainted.
+- `left`: Sub-array derived from `arr`, not tainted.
+- `right`: Sub-array derived from `arr`, not tainted.
+- `result`: Resultant merged array, not tainted as it's derived from non-tainted sub-arrays.
+- `i`: Index for iterating `left`, not tainted.
+- `j`: Index for iterating `right`, not tainted.
+- `merge(left, right)`: Function call merging two non-tainted arrays, not tainted.
+- Return value of `mergeSort`: Not tainted since `arr` is not from an external source.
 
 **** Signs domain analysis
 - `arr`: Contains integers with a range of values.
@@ -697,6 +709,7 @@ The merging process involves comparing the elements of the sub-arrays and arrang
 - `right`: Sub-array of `arr` from `mid` to end.
 - `result`: Merged and sorted array, built incrementally.
 - `i, j`: Indices used in merging, non-negative and incremented within bounds.
+#+LATEX: \newpage
 #+LATEX: \newpage
 * Second AI model: zephyr-orpo-141b-A35b-v0.1
 ** Array manipulation
@@ -1282,5 +1295,5 @@ The isAlphabetic function checks if all characters in a string are alphabetic. I
 - `result`: Merged array, inherits the sign values from `arr` (signs: {0, +, -}).
 - Return value: Sorted array, inherits the sign values from `arr` (signs: {0, +, -}).
 
-* Models comparison
+#+LATEX: \newpage
 * Final considerations
