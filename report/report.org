@@ -4,32 +4,29 @@
 
 * Introduction
 This project involves the generation and analysis of algorithm implementations
-in the GO programming language, leveraging state-of-the-art generative AI
-models. The primary objective is to evaluate the quality and correctness of the
-generated GO code through static analysis using the LiSA (Library for Static
-Analysis) tool. The focus is on understanding the behavior of the code with
-respect to two specific analysis domains chosen from a set of available domains.
+in the GO programming language, leveraging generative AI models. The primary
+objective is to evaluate the quality and correctness of the generated GO code
+through static analysis using the LiSA tool. The focus is on understanding the
+behavior of the code with respect to two specific analysis domains chosen from a
+set of available domains.
 
 ** Objectives
 *** Algorithm Specification and Generation
 1. A given amount of algorithm specifications will be assigned across various
    categories such as array manipulation, sorting, and string manipulation.
-2. For each specification, a generative AI language model will be used to
+2. For each specification, two generative AI language models will be used to
    produce the corresponding GO code.
 *** Generative AI Models
 1. The models selected for this task are:
-   - CohereForAI/c4ai-command-r-plus
-   - HuggingFaceH4/zephyr-orpo-141b-A35b-v0.1
-2. These models will generate the GO code based on provided specifications. The
-   code must be correctly implemented and capable of compilation without
-   additional modification.
+   - *CohereForAI/c4ai-command-r-plus*
+   - *HuggingFaceH4/zephyr-orpo-141b-A35b-v0.1*
+2. These models will generate the GO code based on provided specifications.
 *** Static Analysis with LiSA
 1. Each generated GO code will be analyzed using LiSA to evaluate its behavior
-   in two chosen domains. The available domains include sign, parity, intervals,
+   in two chosen domains. The available domains are signs, parity, intervals,
    pentagons, prefix, suffix, tarsis, and taint.
 2. The selected domains for this analysis will focus on understanding how the
-   algorithms handle numerical properties (such as sign) and range checks (such
-   as intervals).
+   algorithms handle numerical and behavioral properties.
 *** Result Investigation
 1. The results from LiSA will be thoroughly investigated to identify potential
    issues such as logical errors, out-of-bound accesses, incorrect handling of
@@ -39,29 +36,69 @@ respect to two specific analysis domains chosen from a set of available domains.
    examples including main functions to ensure comprehensive analysis.
 
 ** Detailed steps of execution
-*** Generative AI Process
-1. Access the chosen models via the HuggingFace platform.
-2. Input the system prompt designed for generating GO code.
-3. Provide each model with the task specifications and collect the generated
-   code.
-4. Ensure the code is clean from any extraneous textual comments provided by the
-   models.
+Once the algorithms are generated through the chosen models:
 *** Running LiSA Analysis
-1. Use LiSA to perform static analysis on each generated GO script.
-2. Select two domains suitable for each algorithm to provide a comprehensive
+1. LiSA will be used to perform static analysis on each generated GO script.
+2. Two suitable domains for each algorithm will be selected to provide a comprehensive
    understanding of the code’s behavior.
-3. Document the analysis process and results for each script.
+3. The analysis process and results for each script will be documented.
 *** Investigation and Report Writing
-1. Carefully investigate the results from LiSA.
-2. Compile the findings into a coherent and detailed report, highlighting key insights and any issues detected during the analysis.
+1. The results from LiSA will be carefully investigated.
+2. The findings will be compilated into a coherent and detailed report, highlighting key insights and any issues detected during the analysis.
 
 
-* Domains involved
+* Introduction to Analysis Domains
+
+In the context of static analysis for software verification and security, various abstract domains are employed to capture specific properties of programs. Each domain focuses on a particular aspect of the program’s behavior or structure. This section introduces the domains used in our analyses: Intervals, Signs, Parity, Prefix, Suffix, and Taint.
+
+** Intervals Domain
+   The Intervals domain is used to determine the range of values that a variable can take. This domain is particularly useful for verifying array bounds, avoiding overflows, and ensuring that variables remain within acceptable limits.
+
+   - *Definition*: Each variable is associated with an interval [a, b], where 'a' and 'b' are the minimum and maximum values the variable can take, respectively.
+   - *Example*: For a variable `x` with an interval [0, 10], `x` can take any value between 0 and 10.
+
+** Signs Domain
+   The Signs domain focuses on the sign of numerical variables, which can be positive, negative, or zero. This domain is crucial for reasoning about conditional branches and ensuring that certain operations (e.g., division) are safe.
+
+   - *Definition*: Variables are associated with a set of possible signs: {+, -, 0}.
+   - *Example*: For a variable `y` that can be either positive or zero, the sign domain would be {+, 0}.
+
+** Parity Domain
+   The Parity domain deals with the evenness or oddness of integer values. This domain is useful for optimizations and ensuring correct behavior in algorithms that depend on the parity of numbers.
+
+   - *Definition*: Variables are categorized as even, odd, or unknown (TOP).
+   - *Example*: For a variable `z` that is always even, the parity domain would represent it as even.
+
+** Prefix Domain
+   The Prefix domain is used in string manipulation analyses to track possible prefixes of string variables. This domain helps in understanding how strings evolve and in ensuring the correctness of string operations.
+
+   - *Definition*: A variable is associated with a set of possible prefixes.
+   - *Example*: For a string variable `s` that can start with "abc" or "def", the prefix domain would include these prefixes.
+
+** Suffix Domain
+   The Suffix domain, similar to the Prefix domain, tracks possible suffixes of string variables. This domain is important for ensuring the correctness of operations that manipulate the ends of strings.
+
+   - *Definition*: A variable is associated with a set of possible suffixes.
+   - *Example*: For a string variable `t` that can end with "xyz" or "uvw", the suffix domain would include these suffixes.
+
+** Taint Domain
+   The Taint domain is used for information flow analysis to detect if data from untrusted sources (tainted data) can reach critical points (sinks) in the program without proper sanitization. This domain is essential for security analyses to prevent vulnerabilities like SQL injection and cross-site scripting (XSS).
+
+   - *Definition*: Variables are marked as tainted or untainted based on their origin and the operations performed on them.
+   - *Example*: A variable `userInput` read from user input would be marked as tainted, while a variable `sanitizedInput` that has been properly sanitized would be marked as untainted.
+
+** Graphical Representations
+   Each domain’s analysis results are represented graphically by LiSA to provide a clear and concise view of the program’s properties. These graphical outputs help in understanding the flow and state changes of variables throughout the program.
+
+---
+
+With this foundational understanding of the analysis domains, let's proceed to the detailed analysis of various algorithms, leveraging these domains to ensure correctness, security, and reliability.
+
 * First AI model: c4ai-command-r-plus
 ** Array manipulation
 The static analysis for the generated GO code using the LiSA tool was conducted with two domains: *Signs* and *Intervals*.
 *** Binary search
-The binary search algorithm is an efficient method for finding an element within a sorted array. It operates by repeatedly dividing the search interval in half. The key steps are:
+The binary search algorithm is an efficient method for finding an element within a *sorted array*. It operates by repeatedly dividing the search interval in half. The key steps of this implementation are:
 1. Initialize `left` to 0 and `right` to the last index of the array.
 2. Calculate `mid` as the average of `left` and `right`.
 3. If the middle element `arr[mid]` is equal to the target, return the index `mid`.
@@ -102,7 +139,6 @@ The binary search algorithm is an efficient method for finding an element within
 
 **** Graphical Output
 [[./img/c4ai-command-r-plus/array-manipulation/binary-search.png]]
-
 **** Intervals Domain analysis
 - `arr`: The array is not modified, hence its elements remain as [1, 2, 3, 4, 5].
 - `left`: Initially set to 0 and adjusted upwards, so the range is [0, 5].
@@ -113,7 +149,7 @@ The binary search algorithm is an efficient method for finding an element within
 **** Signs Domain analysis
 - `arr`: Not applicable as the domain focuses on numerical values.
 - `left`: As `left` is incremented from 0, it remains positive or zero, so the sign is {0, +}.
-- `right`: Starts at 4 and decrements, potentially becoming negative, so the sign is {0, +, -} (TOP).
+- `right`: Starts at 4 and decrements, potentially becoming negative, so the sign is {0, +, -}.
 - `mid`: Calculated as (left + right) / 2, can be positive or zero, so the sign is {0, +}.
 - `target`: Fixed at 4, thus positive, so the sign is {+}.
 
@@ -724,8 +760,6 @@ The merging process involves comparing the elements of the sub-arrays and arrang
 - `mid`: Non-negative, sign is {0, +}.
 - `target`: Depends on input, could be {0, +, -}.
 *** Count unique elements
-This algorithm counts the number of unique elements in an integer array by first sorting the array and then iterating through it to count distinct elements.
-
 1. **Sorting**: The array is sorted using the `sort.Ints()` function.
 2. **Counting Unique Elements**:
    - Initialize `uniqueCount` to 1 since the first element is always unique.
@@ -773,8 +807,6 @@ This ensures that each unique element is counted exactly once.
 - `i`: Non-negative, sign is {0, +}.
 
 *** Occurrence count
-This algorithm counts the number of occurrences of a target element in an integer array.
-
 1. **Initialization**: Set a counter `count` to 0.
 2. **Iteration**: Loop through each element in the array.
    - If the current element equals the target, increment the `count`.
@@ -822,7 +854,6 @@ This ensures that the target element's occurrences are accurately counted.
 - `num`: Sign depends on elements in `arr`.
 ** Sorting
 *** Count sort
-Count sort is a non-comparative sorting algorithm that sorts an array by counting the occurrences of each unique element. The steps are:
 1. **Find Maximum Value**: Determine the maximum value in the array.
 2. **Counting Occurrences**: Create a count array to store the frequency of each element.
 3. **Reconstruct Array**: Reconstruct the original array using the count array.
@@ -881,7 +912,6 @@ This algorithm ensures that the array is sorted efficiently, especially when the
 - `num`: Parity depends on elements in `arr`.
 - `index`: Parity is even (initially 0) and alternates as it increments.
 *** Heap sort
-Heap sort is a comparison-based sorting technique based on a binary heap data structure. It sorts an array by:
 1. **Building a Max Heap**: Reorder the array into a max heap.
 2. **Heapify**: Adjust the heap by ensuring the parent node is always larger than its children.
 3. **Extract Elements**: Move the largest element to the end and reduce the heap size, repeating the heapify process until the array is sorted.
@@ -953,7 +983,6 @@ Heap sort has a time complexity of O(n log n) and is efficient for large data se
 - `left`: Parity alternates as it increments, can be {even, odd}.
 - `right`: Parity alternates as it increments, can be {even, odd}.
 *** Insertion sort
-Insertion Sort is a simple sorting algorithm that builds the final sorted array one item at a time. It is much less efficient on large lists than more advanced algorithms such as quicksort, heapsort, or merge sort. The key steps are:
 1. **Initialize**: Start with the first element, as a single-element list is already sorted.
 2. **Insert**: Pick the next element and insert it into the sorted part of the array in its correct position.
 3. **Shift**: Shift all larger elements one position to the right to make space for the inserted element.
