@@ -1297,3 +1297,27 @@ The isAlphabetic function checks if all characters in a string are alphabetic. I
 
 #+LATEX: \newpage
 * Final considerations
+This project has provided an exploration of various algorithms, focusing on
+their analysis through different domains: taint analysis, signs, intervals,
+prefix, suffix, parity. The approach aimed to dissect each algorithm's behavior,
+understanding how data flows through them and how different aspects of the data
+(such as taint or interval properties) affect the outcomes.
+
+Throughout the project, we focused on understanding how data correctness is
+maintained in algorithms. For example, taint analysis was a critical aspect
+where we evaluated whether data could be considered safe (untainted) or
+potentially dangerous (tainted). This was particularly relevant in algorithms
+where data could originate from external inputs (the algorithms provided are
+simple and there are not any calls to external resources into them.
+Nevertheless, in a broader context with a real-world scenario, taint analysis is
+one of the most useful), as this raised concerns about security and correctness.
+
+The analysis also covered how algorithms handle edge cases, such as empty inputs
+or extreme values, and how they maintain their integrity across different input
+conditions. This helped to ensure that the algorithms are robust and reliable in
+a variety of scenarios.
+
+In summary, this project not only provided a detailed technical analysis of each
+algorithm but also ensured that the broader implications of data handling,
+safety, and security were considered. The project underscores the importance of
+thorough and multidomain analysis in algorithm design and evaluation.
