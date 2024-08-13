@@ -1,4 +1,4 @@
-#+title: SCRS 2024 final task
+#+title: SCSR 2024 final task
 #+author: Pietro Visconti
 #+SETUPFILE: /Users/visco/.config/doom/latex-standard-setup.org
 
@@ -48,7 +48,7 @@ Once the algorithms are generated through the chosen models:
 2. The findings will be compilated into a coherent and detailed report, highlighting key insights and any issues detected during the analysis.
 
 #+LATEX: \newpage
-* Domains involved into the report
+* Domains involved into the analyses
 
 In the context of static analysis for software verification and security, various abstract domains are employed to capture specific properties of programs. Each domain focuses on a particular aspect of the program’s behavior or structure. This section introduces the domains used in our analyses: Intervals, Signs, Parity, Prefix, Suffix, and Taint.
 
@@ -1078,13 +1078,13 @@ The character occurrence algorithm counts the number of times a specific charact
 - `s`: The input string, can have any prefix depending on its content.
 - `c`: The character to be counted, fixed as 'l'.
 - `char`: Current character in the string, depends on the prefix of `s`.
-- `count`: Accumulates the count of occurrences of `c`, prefix indicates the counts seen so far.
+- `count`: Accumulates the count of occurrences of `c`.
 
 **** Suffix Domain analysis
 - `s`: The input string, can have any suffix depending on its content.
 - `c`: The character to be counted, fixed as 'l'.
 - `char`: Current character in the string, depends on the suffix of `s`.
-- `count`: Accumulates the count of occurrences of `c`, suffix indicates the remaining counts to be processed.
+- `count`: Accumulates the count of occurrences of `c`.
 
 *** Uppercase
 The uppercase conversion algorithm transforms all characters in a given string to their uppercase equivalents. It iterates over each character in the string and converts it using the `ToUpper` function from the `strings` package. This is useful for normalization of text data in various applications.
