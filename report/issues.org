@@ -1,0 +1,9 @@
+#+title: Issues
+
+* Bugs
+* User interface, usability
+- Sidebars resizable or collapsible.
+- Function that stretches the graph in a readable way.
+- Give numbers of each node. When we analyze software, we often do it with a
+  portion of it, not the entire software system. So it would be useful to add
+  some sequential indicator: numbers.
