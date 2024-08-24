@@ -29,23 +29,9 @@ set of available domains.
 2. The selected domains for this analysis will focus on understanding how the
    algorithms handle numerical and behavioral properties.
 *** Result Investigation
-1. The results from LiSA will be thoroughly investigated to identify potential
-   issues such as logical errors, out-of-bound accesses, incorrect handling of
-   numerical properties, and other relevant concerns.
-2. If the analysis is not meaningful due to missing main functions or other
-   context-specific code, the models will be prompted to generate complete
-   examples including main functions to ensure comprehensive analysis.
-
-** Detailed steps of execution
-Once the algorithms are generated through the chosen models:
-*** Running LiSA Analysis
-1. LiSA will be used to perform static analysis on each generated GO script.
-2. Two suitable domains for each algorithm will be selected to provide a comprehensive
-   understanding of the code’s behavior.
-3. The analysis process and results for each script will be documented.
-*** Investigation and Report Writing
-1. The results from LiSA will be carefully investigated.
-2. The findings will be compilated into a coherent and detailed report, highlighting key insights and any issues detected during the analysis.
+The results from LiSA will be investigated to identify potential
+issues such as logical errors, out-of-bound accesses, incorrect handling of
+numerical properties, and other relevant concerns.
 
 #+LATEX: \newpage
 * Domains involved into the analyses
@@ -1296,14 +1282,45 @@ The isAlphabetic function checks if all characters in a string are alphabetic. I
 - Return value: Sorted array, inherits the sign values from `arr` (signs: {0, +, -}).
 
 #+LATEX: \newpage
-* Final considerations
+* Considerations about LiSA
+Below I want to discuss about some features that I personally appreciate and possible improvements for the future developments of LiSA.
+
+First and most importantly, LiSA is built on a strong *theoretical foundation*,
+leveraging abstract interpretation principles to ensure that analyses are both
+sound and effective. Another benefit is that LiSA's design as a library allows
+users to easily extend and customize the framework to suit specific analysis
+needs such as the support of new programming languages.
+
+In addition, there are some aspects that could be enhanced in the future develompents:
+- **Optimization for Large-Scale Analyses**: Addressing performance bottlenecks,
+  particularly in the context of large-scale codebases, could enhance LiSA's
+  applicability in industrial settings.
+- **Enhanced User Interface and Visualization**: Developing a more user-friendly
+  interface, including better visualization tools for analysis results, could
+  make LiSA more accessible to a broader audience. This would help users better
+  understand the outcomes of their analyses and more easily interpret complex
+  results.
+
+  Personally, I would suggest the following improvements:
+  1) Inside the html report, I would add a function that "stretches" the graph
+     to make it more readable. In addition, I would add a label on each node
+     to better understand the sequential order of the code (for example a
+     numerical label: 1, 2, 3, etc... for each node of the graph).
+  2) When I had to deal with algorithms of a certain size, I had some troubles while analyzing the graph. One way to simplify this process could be making the two sidebars collapsible (or at least resizable) to give the user the ability to fully focus on the graph structure.
+- **Broader Language Support**: While LiSA is designed to be adaptable to
+  various programming languages, expanding its support for more
+  languages could make it even more versatile and appealing to a wider range of
+  developers and researchers.
+
+#+LATEX: \newpage
+* Conclusions
 This project has provided an exploration of various algorithms, focusing on
 their analysis through different domains: taint analysis, signs, intervals,
 prefix, suffix, parity. The approach aimed to dissect each algorithm's behavior,
 understanding how data flows through them and how different aspects of the data
 (such as taint or interval properties) affect the outcomes.
 
-Throughout the project, we focused on understanding how data correctness is
+Throughout the project, I focused on understanding how data correctness is
 maintained in algorithms. For example, taint analysis was a critical aspect
 where we evaluated whether data could be considered safe (untainted) or
 potentially dangerous (tainted). This was particularly relevant in algorithms
