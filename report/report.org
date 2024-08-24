@@ -457,14 +457,14 @@ The character occurrences algorithm counts the number of times a specific charac
 **** Graphical output
 [[./img/c4ai-command-r-plus/string-manipulation/char-occurrence.png]]
 **** Prefix domain analysis
-- `str`: The input string remains unchanged. The prefix domain indicates the presence of substrings starting from the beginning of the string.
+- `str`: The input string remains unchanged.
 - `char`: The target character, a single rune. In the prefix domain, it represents the character to be matched against the initial segments of `str`.
 - `count`: The variable to store the occurrence count, starting from 0 and increasing. The prefix domain shows the progression of counts as the string is processed.
 - `i`: Used to iterate over the string. The prefix domain captures the substring from `0` to `i`.
 **** Suffix domain analysis
-- `str`: The input string remains unchanged. The suffix domain indicates the presence of substrings ending at different points in the string.
+- `str`: The input string remains unchanged.
 - `char`: The target character, a single rune. In the suffix domain, it represents the character to be matched against the final segments of `str`.
-- `count`: The variable to store the occurrence count, starting from 0 and increasing. The suffix domain shows the progression of counts as the string is processed.
+- `count`: The variable to store the occurrence count, starting from 0 and increasing.
 - `i`: Used to iterate over the string. The suffix domain captures the substring from `i` to the end.
 *** Uppercase conversion
 The uppercase conversion algorithm converts each character in a string to its uppercase equivalent. The key steps are:
@@ -498,13 +498,13 @@ The uppercase conversion algorithm converts each character in a string to its up
 **** Graphical output
 [[./img/c4ai-command-r-plus/string-manipulation/uppercase.png]]
 **** Prefix domain analysis
-- `str`: The input string remains unchanged. The prefix domain indicates the presence of substrings starting from the beginning of the string.
-- `length`: The length of the string, which is fixed. The prefix domain represents the length of the substring being processed.
+- `str`: The input string remains unchanged.
+- `length`: The length of the string, which is fixed.
 - `upper`: The byte slice to store uppercase characters. In the prefix domain, it shows the progression of uppercase characters as the string is processed.
 - `i`: Used to iterate over the string. The prefix domain captures the substring from `0` to `i`.
 **** Suffix domain analysis
-- `str`: The input string remains unchanged. The suffix domain indicates the presence of substrings ending at different points in the string.
-- `length`: The length of the string, which is fixed. The suffix domain represents the length of the substring being processed.
+- `str`: The input string remains unchanged.
+- `length`: The length of the string, which is fixed.
 - `upper`: The byte slice to store uppercase characters. In the suffix domain, it shows the progression of uppercase characters as the string is processed.
 - `i`: Used to iterate over the string. The suffix domain captures the substring from `i` to the end.
 *** Words count
@@ -534,13 +534,13 @@ The word count algorithm splits a string into words and returns the number of wo
 **** Graphical output
 [[./img/c4ai-command-r-plus/string-manipulation/words.png]]
 **** Prefix domain analysis
-- `str`: The input string remains unchanged. The prefix domain indicates the presence of substrings starting from the beginning of the string.
+- `str`: The input string remains unchanged.
 - `words`: The slice of words obtained by splitting `str`. In the prefix domain, it shows the progression of word accumulation as the string is processed.
-- `count`: The length of the `words` slice. In the prefix domain, it represents the count of words identified from the start of the string up to the current position.
+- `count`: The length of the `words` slice.
 **** Suffix domain analysis
-- `str`: The input string remains unchanged. The suffix domain indicates the presence of substrings ending at different points in the string.
+- `str`: The input string remains unchanged.
 - `words`: The slice of words obtained by splitting `str`. In the suffix domain, it shows the progression of word accumulation as the string is processed.
-- `count`: The length of the `words` slice. In the suffix domain, it represents the count of words identified from the current position to the end of the string.
+- `count`: The length of the `words` slice.
 
 ** Custom algorithms
 *** Distinct
