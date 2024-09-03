@@ -1,0 +1,38 @@
+{
+  "warnings" : [ ],
+  "files" : [ "js/cose-base.js", "js/cytoscape-3.21.1.min.js", "js/cytoscape-expand-collapse.js", "js/cytoscape-fcose.js", "js/cytoscape-graphml-1.0.6-hier.js", "js/jquery-3.0.0.min.js", "js/layout-base.js", "report.json", "untyped_main.countSort([]int_arr)_1993390229.html", "untyped_main.main().html" ],
+  "info" : {
+    "cfgs" : "2",
+    "duration" : "109ms",
+    "end" : "2024-07-28T11:07:10.863+02:00",
+    "expressions" : "72",
+    "files" : "9",
+    "globals" : "0",
+    "members" : "10",
+    "programs" : "1",
+    "start" : "2024-07-28T11:07:10.754+02:00",
+    "statements" : "35",
+    "units" : "2",
+    "version" : "0.1b9",
+    "warnings" : "0"
+  },
+  "configuration" : {
+    "analysisGraphs" : "HTML_WITH_SUBNODES",
+    "descendingPhaseType" : "NONE",
+    "dumpForcesUnwinding" : "false",
+    "fixpointWorkingSet" : "DuplicateFreeFIFOWorkingSet",
+    "glbThreshold" : "5",
+    "hotspots" : "unset",
+    "jsonOutput" : "true",
+    "openCallPolicy" : "RelaxedOpenCallPolicy",
+    "optimize" : "false",
+    "recursionWideningThreshold" : "5",
+    "semanticChecks" : "",
+    "serializeInputs" : "false",
+    "serializeResults" : "false",
+    "syntacticChecks" : "",
+    "useWideningPoints" : "true",
+    "wideningThreshold" : "5",
+    "workdir" : "/Users/visco/Documents/code/GO-Static-Analysis/zephyr-orpo-141b-A35b-v0.1/src/../output//sorting/./count_sort.go/intervals"
+  }
+}

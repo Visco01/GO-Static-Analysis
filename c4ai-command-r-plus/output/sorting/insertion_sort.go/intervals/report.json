@@ -1,0 +1,38 @@
+{
+  "warnings" : [ ],
+  "files" : [ "js/cose-base.js", "js/cytoscape-3.21.1.min.js", "js/cytoscape-expand-collapse.js", "js/cytoscape-fcose.js", "js/cytoscape-graphml-1.0.6-hier.js", "js/jquery-3.0.0.min.js", "js/layout-base.js", "report.json", "untyped_main.insertionSort([]int_arr)_26770594.html", "untyped_main.main().html" ],
+  "info" : {
+    "cfgs" : "2",
+    "duration" : "112ms",
+    "end" : "2024-07-28T11:06:42.599+02:00",
+    "expressions" : "52",
+    "files" : "9",
+    "globals" : "0",
+    "members" : "10",
+    "programs" : "1",
+    "start" : "2024-07-28T11:06:42.487+02:00",
+    "statements" : "18",
+    "units" : "2",
+    "version" : "0.1b9",
+    "warnings" : "0"
+  },
+  "configuration" : {
+    "analysisGraphs" : "HTML_WITH_SUBNODES",
+    "descendingPhaseType" : "NONE",
+    "dumpForcesUnwinding" : "false",
+    "fixpointWorkingSet" : "DuplicateFreeFIFOWorkingSet",
+    "glbThreshold" : "5",
+    "hotspots" : "unset",
+    "jsonOutput" : "true",
+    "openCallPolicy" : "RelaxedOpenCallPolicy",
+    "optimize" : "false",
+    "recursionWideningThreshold" : "5",
+    "semanticChecks" : "",
+    "serializeInputs" : "false",
+    "serializeResults" : "false",
+    "syntacticChecks" : "",
+    "useWideningPoints" : "true",
+    "wideningThreshold" : "5",
+    "workdir" : "/Users/visco/Documents/code/GO-Static-Analysis/c4ai-command-r-plus/src/../output//sorting/./insertion_sort.go/intervals"
+  }
+}

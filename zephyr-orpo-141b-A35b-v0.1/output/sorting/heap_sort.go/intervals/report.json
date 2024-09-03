@@ -1,0 +1,38 @@
+{
+  "warnings" : [ ],
+  "files" : [ "js/cose-base.js", "js/cytoscape-3.21.1.min.js", "js/cytoscape-expand-collapse.js", "js/cytoscape-fcose.js", "js/cytoscape-graphml-1.0.6-hier.js", "js/jquery-3.0.0.min.js", "js/layout-base.js", "report.json", "untyped_main.heapSort([]int_arr)_-1074440662.html", "untyped_main.heapify([]int_arr,_int_n,_int_i)_-22357267.html", "untyped_main.heapify([]int_arr,_int_n,_int_i)_-22357422.html", "untyped_main.main().html" ],
+  "info" : {
+    "cfgs" : "3",
+    "duration" : "199ms",
+    "end" : "2024-07-28T11:07:10.102+02:00",
+    "expressions" : "110",
+    "files" : "11",
+    "globals" : "0",
+    "members" : "11",
+    "programs" : "1",
+    "start" : "2024-07-28T11:07:09.903+02:00",
+    "statements" : "38",
+    "units" : "2",
+    "version" : "0.1b9",
+    "warnings" : "0"
+  },
+  "configuration" : {
+    "analysisGraphs" : "HTML_WITH_SUBNODES",
+    "descendingPhaseType" : "NONE",
+    "dumpForcesUnwinding" : "false",
+    "fixpointWorkingSet" : "DuplicateFreeFIFOWorkingSet",
+    "glbThreshold" : "5",
+    "hotspots" : "unset",
+    "jsonOutput" : "true",
+    "openCallPolicy" : "RelaxedOpenCallPolicy",
+    "optimize" : "false",
+    "recursionWideningThreshold" : "5",
+    "semanticChecks" : "",
+    "serializeInputs" : "false",
+    "serializeResults" : "false",
+    "syntacticChecks" : "",
+    "useWideningPoints" : "true",
+    "wideningThreshold" : "5",
+    "workdir" : "/Users/visco/Documents/code/GO-Static-Analysis/zephyr-orpo-141b-A35b-v0.1/src/../output//sorting/./heap_sort.go/intervals"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "warnings" : [ ],
+  "files" : [ "_[]int_main.merge([]int_left,_[]int_right)_-914355722.html", "_[]int_main.mergeSort([]int_arr)_1582039172.html", "js/cose-base.js", "js/cytoscape-3.21.1.min.js", "js/cytoscape-expand-collapse.js", "js/cytoscape-fcose.js", "js/cytoscape-graphml-1.0.6-hier.js", "js/jquery-3.0.0.min.js", "js/layout-base.js", "report.json", "untyped_main.main().html" ],
+  "info" : {
+    "cfgs" : "3",
+    "duration" : "1s 71ms",
+    "end" : "2024-07-28T11:06:40.391+02:00",
+    "expressions" : "93",
+    "files" : "10",
+    "globals" : "0",
+    "members" : "11",
+    "programs" : "1",
+    "start" : "2024-07-28T11:06:39.320+02:00",
+    "statements" : "28",
+    "units" : "2",
+    "version" : "0.1b9",
+    "warnings" : "0"
+  },
+  "configuration" : {
+    "analysisGraphs" : "HTML_WITH_SUBNODES",
+    "descendingPhaseType" : "NONE",
+    "dumpForcesUnwinding" : "false",
+    "fixpointWorkingSet" : "DuplicateFreeFIFOWorkingSet",
+    "glbThreshold" : "5",
+    "hotspots" : "unset",
+    "jsonOutput" : "true",
+    "openCallPolicy" : "RelaxedOpenCallPolicy",
+    "optimize" : "false",
+    "recursionWideningThreshold" : "5",
+    "semanticChecks" : "",
+    "serializeInputs" : "false",
+    "serializeResults" : "false",
+    "syntacticChecks" : "",
+    "useWideningPoints" : "true",
+    "wideningThreshold" : "5",
+    "workdir" : "/Users/visco/Documents/code/GO-Static-Analysis/c4ai-command-r-plus/src/../output//custom/./merge_sort.go/sign"
+  }
+}
